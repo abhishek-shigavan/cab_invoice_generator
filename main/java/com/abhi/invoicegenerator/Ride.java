@@ -1,5 +1,8 @@
 package com.abhi.invoicegenerator;
 
+/**
+ * Ride -- Defining Ride Properties
+ */
 public class Ride {
     public double distance;
     public int time;

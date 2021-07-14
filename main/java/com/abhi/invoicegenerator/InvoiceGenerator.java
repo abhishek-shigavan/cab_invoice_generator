@@ -1,7 +1,7 @@
 package com.abhi.invoicegenerator;
 
 /**
- * InvoiceGenerator --  Computing Fare of Cab Ride
+ * InvoiceGenerator --  Computing Fare of Cab Ride & generating invoice
  *
  * @author Abhishek Shigavan
  */
@@ -49,5 +49,31 @@ public class InvoiceGenerator {
             totalFare += fare;
         }
         return totalFare;
+    }
+
+    /**
+     * This method checks if the given array empty / not
+     * If not empty then computes total fare, avg fare per ride, total ride
+     * & assign this values as invoice properties & returns invoice object
+     *
+     * @param rideArray - Array containing multiple rides data
+     * @return invoice - Object of EnhancedInvoice containing properties of invoice
+     */
+    public EnhancedInvoice getEnhancedInvoice(Ride[] rideArray) {
+        //checking rideArray is not empty
+        boolean isRidePresent = rideArray != null;
+        EnhancedInvoice invoice = new EnhancedInvoice();
+        if(isRidePresent){
+            int totalNoOfRides = rideArray.length;
+            double totalFare = calculateFare(rideArray);
+            double avgFarePerRide = totalFare / totalNoOfRides;
+            invoice.setTotalNoOfRides(totalNoOfRides);
+            invoice.setTotalFare(totalFare);
+            invoice.setAvgFarePerRide(avgFarePerRide);
+        }
+        else{
+            System.out.println("No ride to compute fare");
+        }
+        return invoice;
     }
 }
