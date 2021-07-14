@@ -1,6 +1,6 @@
 # Cab Invoice Generator Using TTD Approch
 
-##Use Cases
+## Use Cases
 1) UC1  - Computing Ride Fare Using Distance & Time Values, If Computed Fare Is Less Than Defined Minimum Fare Then It Should Return Minimum Fare Else Return Computed Fare
 
 2) UC2  - Computing TotalFare Of Multiple Rides   
