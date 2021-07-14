@@ -3,14 +3,18 @@ package com.abhi.invoicegenerator;
 import java.util.List;
 /**
  * InvoiceGenerator --  Cab Invoice Generator
- *                      i) Computing Single as well as multiple Ride Fare
+ *                      i) Computing Single as well as Multiple Rides Fare
  *                      ii) Generating Fare Invoice
  *                      iii) Storing UserId along with its all invoices
+ *                      iv) Computing Single as well as Multiple Premium Rides Fare
  *
  * @author Abhishek Shigavan
  */
 public class InvoiceGenerator {
     public static final double MINIMUM_FARE = 5.0;
+    public static final double PREMIUM_COST_PER_KILOMETER = 15.0;
+    public static final int PREMIUM_COST_PER_MINUTE = 2;
+    public static final double PREMIUM_MINIMUM_FARE = 20.0;
     public final double COST_PER_KILOMETER = 10.0;
     public final int COST_PER_MINUTE = 1;
     /**
@@ -99,5 +103,45 @@ public class InvoiceGenerator {
             System.out.println("No Such UserId Present In UserRidesRepository");
         }
         return null;
+    }
+    /**
+     * This method computes premium rides fare by using distance & time values
+     * & checks computed fare with defined premium minimum fare
+     * If computed fare is less than premium minimum fare then it will return
+     * premium minimum fare else return computed fare
+     *
+     * @param distance - distance of ride
+     * @param time  - time taken to complete ride
+     * @return totalFare - total fare of ride
+     */
+    public double calculatePremiumFare(double distance, int time) {
+        double totalFare = 0.0;
+        totalFare = distance * PREMIUM_COST_PER_KILOMETER + time * PREMIUM_COST_PER_MINUTE;
+        if(totalFare < PREMIUM_MINIMUM_FARE) {
+            return PREMIUM_MINIMUM_FARE;
+        }
+        return totalFare;
+    }
+    /**
+     * This method takes array containing multiple rides data as a
+     * input & fetches the values from array to compute premium rides fare
+     * It will compute premium rides fare & every time keep adding it to total fare to
+     * get aggregate fare of all rides & return the same
+     *
+     * @param rideArray - array containing multiple ride data
+     * @return totalFare - aggregate total fare of all rides
+     */
+    public double calculatePremiumFare(Ride[] rideArray) {
+        double totalFare = 0.0;
+        for (Ride ride : rideArray) {
+            double fare = ride.distance * PREMIUM_COST_PER_KILOMETER + ride.time * PREMIUM_COST_PER_MINUTE;
+            //assuring fare less than minimum fare
+            // will not be added to total fare
+            if(fare < PREMIUM_MINIMUM_FARE){
+                fare = PREMIUM_MINIMUM_FARE;
+            }
+            totalFare += fare;
+        }
+        return totalFare;
     }
 }
