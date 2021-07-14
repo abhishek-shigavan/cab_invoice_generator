@@ -1,5 +1,6 @@
 package com.abhi.invoicetest;
 
+import com.abhi.invoicegenerator.EnhancedInvoice;
 import com.abhi.invoicegenerator.InvoiceGenerator;
 import com.abhi.invoicegenerator.Ride;
 import org.junit.Assert;
@@ -41,11 +42,27 @@ public class TU_InvoiceGenerator {
      * by compute method matches with expected total fare / not
      */
     @Test
-    void whenMultipleRidesAreGiven_ShouldReturnTotalFareOfAllRides() {
+    void whenMultipleRidesAreGiven_ShouldReturn_TotalFareOfAllRides() {
         InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
         Ride[] rideArray = { new Ride(5.0,10),
                             new Ride(0.1,1)};
         double fare = invoiceGenerator.calculateFare(rideArray);
         Assert.assertEquals(65,fare,0.0);
+    }
+    /**
+     * This method passes array of multiple rides data to create invoice containing
+     * total rides, total fare, avg fare per ride values & checks this return values
+     * matches with expected values / not
+     */
+    @Test
+    void whenMultipleRidesAreGiven_ShouldReturn_CorrectEnhancedInvoice() {
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        Ride ride1 = new Ride(5.0,10);
+        Ride ride2 = new Ride(0.1,1);
+        Ride[] rideArray = {ride1, ride2};
+        EnhancedInvoice invoice = invoiceGenerator.getEnhancedInvoice(rideArray);
+        Assert.assertEquals(2,invoice.getTotalNoOfRides());
+        Assert.assertEquals(65,invoice.getTotalFare(),0.0);
+        Assert.assertEquals(32.5,invoice.getAvgFarePerRide(),0.0);
     }
 }
