@@ -1,6 +1,7 @@
 package com.abhi.invoicetest;
 
 import com.abhi.invoicegenerator.InvoiceGenerator;
+import com.abhi.invoicegenerator.Ride;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 /**
@@ -32,5 +33,19 @@ public class TU_InvoiceGenerator {
         int time = 1;
         double fare = invoiceGenerator.calculateFare(distance,time);
         Assert.assertEquals(invoiceGenerator.MINIMUM_FARE, fare,0.0);
+    }
+
+    /**
+     * This method passes array containing multiple ride data to get
+     * the aggregate total fare of all rides & checks the fare return
+     * by compute method matches with expected total fare / not
+     */
+    @Test
+    void whenMultipleRidesAreGiven_ShouldReturnTotalFareOfAllRides() {
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        Ride[] rideArray = { new Ride(5.0,10),
+                            new Ride(0.1,1)};
+        double fare = invoiceGenerator.calculateFare(rideArray);
+        Assert.assertEquals(65,fare,0.0);
     }
 }
