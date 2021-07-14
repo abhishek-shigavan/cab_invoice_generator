@@ -98,4 +98,41 @@ public class TU_InvoiceGenerator {
         Assert.assertEquals(128.0,listOfUserRides.get(0).getTotalFare(),0.0);
         Assert.assertEquals(64.0,listOfUserRides.get(0).getAvgFarePerRide(),0.0);
     }
+    /**
+     * This method passes distance & time values to calculate fare &
+     * check the return premium fare matches with expected premium fare / not
+     */
+    @Test
+    void whenDistanceAndTimeIsGivenForPremiumRide_ShouldReturnCalculatedFare() {
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        double distance = 5.0;
+        int time = 10;
+        double fare = invoiceGenerator.calculatePremiumFare(distance, time);
+        Assert.assertEquals(95.0,fare,0.0);
+    }
+    /**
+     * This method passes distance & time values in a way that calculated fare will
+     * be less that PREMIUM MINIMUM FARE & check the return fare is PREMIUM MINIMUM FARE / not
+     */
+    @Test
+    void whenCalculatedFareIsLessThanPremiumMinimumFare_ShouldReturnPremiumMinimumFare() {
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        double distance = 0.1;
+        int time = 1;
+        double fare = invoiceGenerator.calculatePremiumFare(distance,time);
+        Assert.assertEquals(invoiceGenerator.PREMIUM_MINIMUM_FARE, fare,0.0);
+    }
+    /**
+     * This method passes array containing multiple ride data to get
+     * the aggregate total premium fare of all rides & checks the fare return
+     * by compute method matches with expected total premium fare / not
+     */
+    @Test
+    void whenMultipleRidesAreGiven_ShouldReturn_TotalPremiumFareOfAllRides() {
+        InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+        Ride[] rideArray = { new Ride(5.0,10),
+                new Ride(0.1,1)};
+        double fare = invoiceGenerator.calculatePremiumFare(rideArray);
+        Assert.assertEquals(115.0,fare,0.0);
+    }
 }
