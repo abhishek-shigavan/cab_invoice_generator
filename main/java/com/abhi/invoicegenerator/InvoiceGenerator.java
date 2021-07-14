@@ -1,7 +1,11 @@
 package com.abhi.invoicegenerator;
 
+import java.util.List;
 /**
- * InvoiceGenerator --  Computing Fare of Cab Ride & generating invoice
+ * InvoiceGenerator --  Cab Invoice Generator
+ *                      i) Computing Single as well as multiple Ride Fare
+ *                      ii) Generating Fare Invoice
+ *                      iii) Storing UserId along with its all invoices
  *
  * @author Abhishek Shigavan
  */
@@ -9,7 +13,6 @@ public class InvoiceGenerator {
     public static final double MINIMUM_FARE = 5.0;
     public final double COST_PER_KILOMETER = 10.0;
     public final int COST_PER_MINUTE = 1;
-
     /**
      * This method computes ride fare by using distance & time values
      * & checks computed fare with defined minimum fare
@@ -75,5 +78,26 @@ public class InvoiceGenerator {
             System.out.println("No ride to compute fare");
         }
         return invoice;
+    }
+
+    /**
+     * This method checks if the given userId is present in ride repository
+     * If present then returns ride list of userId
+     * else prints the message
+     *
+     * @param userId  - Id of user
+     * @return userRidesList -- list of rides of given userId
+     */
+    public List<EnhancedInvoice> getListOfRidesByUserId(int userId) {
+        RideRepository rideRepository = new RideRepository();
+        boolean isUserIdPresent = RideRepository.userRideRepository.containsKey(userId);
+        if(isUserIdPresent){
+            List<EnhancedInvoice> userRidesList = rideRepository.getUserRidesList(userId);
+            return userRidesList;
+        }
+        else{
+            System.out.println("No Such UserId Present In UserRidesRepository");
+        }
+        return null;
     }
 }
